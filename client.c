@@ -111,6 +111,8 @@ int main(int argc, char * argv[]){
     	goto enterLabel;
     }
 
+    //Closing socket file descriptor
+
     close(sockfd);
 
 
