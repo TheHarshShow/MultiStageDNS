@@ -25,6 +25,7 @@ int main(int argc, char * argv[]){
 	sockfd = socket(AF_INET, SOCK_STREAM, 0);
 	if(sockfd<0){
 		printf("Error opening socket!\n");
+		close(sockfd);
 		exit(0);
 	}
 
@@ -39,6 +40,7 @@ int main(int argc, char * argv[]){
     serv_addr.sin_port = htons(port_number);
     if (connect(sockfd,(struct sockaddr *) &serv_addr,sizeof(serv_addr)) < 0){
     	printf("Error connecting!\n");
+    	close(sockfd);
     	exit(0);
     }
 
@@ -62,6 +64,7 @@ int main(int argc, char * argv[]){
 	    if (write(sockfd,buffer,strlen(buffer)) < 0) {
 
 	    	printf("Error writing to socket!\n");
+	    	close(sockfd);
 	    	exit(0);
 
 	    }
@@ -70,9 +73,10 @@ int main(int argc, char * argv[]){
 	    if (read(sockfd,buffer,255) < 0){
 
 	    	printf("Error reading from socket!\n");
+	    	close(sockfd);
 	    	exit(0);
 
-	    } 
+	    }
 	    printf("Response: %s\n", buffer);
 
     } else if(type==2){
@@ -88,14 +92,18 @@ int main(int argc, char * argv[]){
 	    if (write(sockfd,buffer,strlen(buffer)) < 0) {
 
 	    	printf("Error writing to socket!\n");
+	    	close(sockfd);
 	    	exit(0);
 
 	    }
+
 	    bzero(buffer,256);
+
 	    if (read(sockfd,buffer,255) < 0){
 	    	printf("Error reading from socket!\n");
+	    	close(sockfd);
 	    	exit(0);
-	    } 
+	    }
 	    printf("Response: %s\n", buffer);
 
     } else {
